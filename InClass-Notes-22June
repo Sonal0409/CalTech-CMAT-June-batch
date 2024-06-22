@@ -189,6 +189,51 @@ you can see an example of ansible.cfg file at : https://gist.github.com/alivx/2a
 
 
 
+Open SSH Connection between 2 Linux machine
+=====================================
+
+Whenever we want 2 Linux servers to communicate with each other , we will use SSH protocol
+
+
+1. We will create a new Linux user(ansiuser) on both the Linux machine. We will use this user for communication between the 2 machine
+
+2. This user ansiuser will have a password also set
+
+3. To this user (ansiuser) we will give root permissions on each Linux machine, So that when we execute any Linux command I don't have to give password
+    We will add the user in the system file of Linux machine -> /etc/sudoers file
+
+4. For this user in Machine 1 (MASTER) we will generate an SSH keys -> these are pair of keys (public and private key)
+
+private key will be with the Machine 1
+Public key will be copied on machine 2 (WORKER) for communication to happen
+
+Once the public key is copied in the .ssh/authorized_keys file
+
+Once the SSH key of master is copied on worker node, both the Linux machines can communicate 
+
+For copying the key on worker node we will use ssh-copy-id command, which will pick up the public key and copy it on desired worker server
+
+To perform above step, machine1(master) will have to first connect to Machine2 node via the username ansiuser and give password
+and then copy the key in desired location (1 time activity)
+
+So we will to make a change in SSHD file to enable passowrdAuthentication = yes
+
+Once the key has been copied.. in future machine1 doesnot require any password to connect to Machine2 -> passowrdless authentication
+
+
+Pls note:
+
+ SSH keys will be generated on the Master node only and copied on worker node
+=========================================
+
+So what are the common steps on Master  node and worker Node
+==================
+> Same user "ansiuser" to be created on master and worker node
+
+> Update /etc/sudoers file for root permissions to ansiuser on master and worker node
+
+> Update SSHD file to allow password authentication > on master and worker node
+
 
 
 
