@@ -1,0 +1,564 @@
+Hello Everyone!
+
+Trainer: Sonal Mittal
+
+
+Agenda:
+============
+
+Introduction to Configuration Management
+Discuss on CM tools
+Introduction to Ansible
+Push and Pull approach in CM
+Ansible Architecture and its components
+Set of Ansible Controller and worker nodes
+
+================================
+
+
+
+If there is no Automation:
+====================
+
+lets say we have 100 of servers
+
+Make changes on the existing servers -> It is called as configuration Management
+
+> Install packages
+> Copying files
+> Updating configuration files of an application
+> Copy scripts
+> Deploy applications
+
+
+If done manually:
+
+> time consuming
+> error prone
+> application/deployment fails-> re do steps manually
+> chances of missing commands
+> updates may not be complete
+> who executed the steps, when it was executed
+> manage shell scripts
+> manage different scripts for different OS
+
+In order to manage all the above challenges we have to use Configuration management automation tools
+===========================
+
+> bring consistency across the environments
+> we will easily able to manage changes on different servers
+> writing of code in CM tools is very easy. No special coding skills are needed
+> many CM tools they provide readymade code modules and resources are already available
+> version control the code and we can share with others
+> CM tool they keep track of all the changes that have been preformed, when it was performed, where it was performed
+> CM tools can parallelly connect to various servers and make changes on them at the same time. They can also help us in scaling up the infrastructure automatically.
+
+
+Various CM tools:
+==================
+
+Pull Approach:
+
+Chef: Setting of the tool is difficult
+
+Chef master : you will write code -> we write code in cookbook
+Code is written in DSL-Ruby
+On worker nodes we install chef client
+In chef we have workstation where we will write code, test it
+
+Puppet: 
+Setting of the tool is difficult
+Code is written in DSL-Ruby
+The file in which the code is written is called puppet manifest file
+Puppet master and puppet agent
+
+
+Push approach:
+
+Ansible : 
+
+Setting up of ansible is very easy
+connection is via SSH which makes connection to host servers  easy
+The files in which we write the configuration code it is called as a Playbook
+Code is written in YAML
+Everything is controlled by master node
+ansible enterprise version also has GUI which is Ansible Tower
+It is an agent less tool
+
+SaltStack
+
+Master node: Salt master
+Agent node is called as Salt minions
+Code is also written in YAML
+It is a commercial tool. it is not an open source tool
+It is an agent less tool
+
+
+============================================
+
+Ansible and its components:
+============================================
+
+INVENTORY FILE : (WHERE to Execute the Changes)
+=================
+
+> It is a simple text file in which we will write ip address or hostname of the servers where Ansible has to connect and do the changes
+
+> This file is available by default on Ansible controller server
+
+> the default path is : /etc/ansible & the default inventory file name is hosts
+
+> You can however create inventory file in any location of the controller
+
+2 Types of Inventory file:
+
+Static Inventory:
+
+> If you fixed number of host servers which don't change
+> The user will manually create the inventory file and manually update the ip address inside the inventory file
+
+
+Dynamic Inventory:
+===============
+> If the infrastructure is on the cloud we can create a dynamic inventory
+
+> Ansible will connect to your cloud provider and compute the number of servers in your environment and generate an inventory fiel with list of ip address/hostname of servers on the cloud
+
+
+Modules in Ansible
+================================
+
+They are nothing but  python scripts (ansible pre-written code) that are pushed to host servers to make configuration changes
+
+these modules will accept some input form the users to configure desired changes on the servers
+
+modules are small small python program that are already available in ansible
+there 4000+ modules in ansible to perform various configuration activities
+
+Example:
+=============
+
+COPY (srcfile=file1 dest=/tmp)
+
+Playbook:
+=========================
+
+A playbook is made up of one or more plays, which are like sections in a recipe. Each play targets a specific group of hosts (devices) and defines the tasks to be executed on them.
+
+A playbook in ansible is written in YAML
+
+In playbook is nothing but a collection of plays
+
+A play consist of host group details and tasks
+
+---
+- name: Play1
+  hosts: Devserver
+  tasks: 
+  - name: install apche
+  - name: install tomcat
+
+
+...
+
+New playbook
+
+- name: Play2
+  hosts: TestServer
+  tasks:
+  - name: install maven
+ - name: install selenium
+
+=============================
+
+Ansible.cfg
+==============================
+
+It is a default file of ansible. its name is always ansible.cfg
+It is present byd efault in /etc/ansible directory
+
+This file consist of key and value with details about ansible configuration
+Where inventory file?
+where modules
+how many hosts to connect
+which user to do ssh connect
+which user will be root user
+
+you can see an example of ansible.cfg file at : https://gist.github.com/alivx/2a4ca3e577ead4bd38d247c258e6513b
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
