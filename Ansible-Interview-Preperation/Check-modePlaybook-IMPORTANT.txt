@@ -1,0 +1,140 @@
+ when: ansible_os_family == "Debian"
+
+ when: ansible_os_family == "RedHat"
+
+
+Write a playbook using custom variables and loops:
+
+- hosts: webserver
+  become: true
+  become_user: root
+  vars:
+   user_list:
+    - user01
+    - user02
+    - user03
+  tasks:
+  - name: update apt cache
+    apt: update_cache=yes cache_valid_time=3600
+  - name: Install packages on the host servers
+    package: name={{item}} state=present
+    loop:
+     - apache2
+     - mysql-server
+     - php-mysql
+     - php
+     - libapache2-mod-php
+     - python3-mysqldb
+  - name: Create users on host servers
+    user: name={{item}} state=present
+    loop: "{{user_list}}"
+
+
+
+Example: Loop, when condition, variables and check_mode
+
+vim check_package1.yml
+---
+- hosts: servers
+  #connection: local # When running locally
+  vars:
+    package_names:
+      - vim 
+      - telnet
+  tasks:
+    - name: "Check if listed package is installed or not on Debian Linux family"
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      check_mode: true
+      loop: "{{ package_names }}"
+      register: package_check
+
+    - name: "Print execution results"
+      debug:
+        msg: "Package is installed"
+      when: package_check is succeeded
+
+Note:
+Validating tasks: check mode and diff mode
+Ansible provides two modes of execution that validate tasks: check mode and diff mode. These modes can be used separately or together. 
+They are useful when you are creating or editing a playbook or role and you want to know what it will do. 
+In check mode, Ansible runs without making any changes on remote systems. Modules that support check mode report the changes they would have made. Modules that do not support check mode report nothing and do nothing.
+ In diff mode, Ansible provides before-and-after comparisons. (commonly used with file modules)
+Modules that support diff mode display detailed information. You can combine check mode and diff mode for detailed validation of your playbook or role.
+https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_checkmode.html
+
+
+
+
+1. how to define a variable in ansible playbook?
+
+vars:  # vars block which consists of variables
+var_name: value
+
+vars: block can be at a global level in the playbook
+or
+
+we can also define a vars blcok for a sepcific task
+
+2. How to refer the variable in playbook tasks
+
+tasks:
+- name: execute a command
+  package: name={{var_name}}
+
+3. passing the value to the variable at runtime (when executung the playbook)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
